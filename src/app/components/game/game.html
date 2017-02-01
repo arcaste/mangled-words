@@ -1,21 +1,23 @@
-<!-- <div class="container"> -->
 <br>
 <div class="jumbotron text-center">
-    <h1>Game</h1>
+    <h1>{{game.title}}</h1>
     <br>
-    <p>SubTitle</p>
-    <button ui-sref="highscore" ui-sref-active="active" type="button" class="btn btn-primary btn-lg btn-block">
+    <p>{{game.subTitle}}</p>
+    <button ng-disabled="game.gameStarted" ui-sref="highscore" ui-sref-active="active" type="button" class="btn btn-primary btn-lg btn-block">
         Highscore
     </button>
-    <button type="button" class="btn btn-primary btn-lg btn-block">
+    <button ng-disabled="game.gameStarted" ng-click="game.startNewGame()" type="button" class="btn btn-primary btn-lg btn-block">
         Play the game
     </button>
 </div>
-
+<div>{{game.time}}</div>
+<div>{{game.maxScore}}</div>
+<div>{{game.mangledWord}}</div>
+<div class="alert alert-success" role="alert" ng-show="game.showSuccessAlert">Well done! You successfully read this important alert message.</div>
+<div class="alert alert-danger" role="alert" ng-show="game.showDangerAlert">Oh snap! Change a few things up and try submitting again.</div>
 <div>
-    <input type="text"/>
-    <button ng-click="game.submitWord()" type="button" class="btn btn-lg">
+    <input ng-disabled="!game.gameStarted" type="text" ng-model="game.input" ng-change="game.inputChanged()"/>
+    <button ng-disabled="!game.gameStarted" ng-click="game.submitWord()" type="button" class="btn btn-lg" ng-class="game.wrongAnswer ? 'btn-danger' : 'btn-primary'">
         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
     </button>
 </div>
-<!-- </div> -->

@@ -22,6 +22,8 @@
                 resolve: {
                     players: getPlayers
                 }
+                // controller: 'MainController',
+                // controllerAs: 'main'
             });
 
         $urlRouterProvider.otherwise('/game');
