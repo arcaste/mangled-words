@@ -1,0 +1,25 @@
+<!-- <div class="container"> -->
+<br>
+<div class="jumbotron text-center">
+    <h1>Highscore</h1>
+    <br>
+    <p>Check your score or if you haven't play yet... give it a try!</p>
+    <button ui-sref="game" ui-sref-active="active" type="button" class="btn btn-primary btn-lg btn-block">
+        Play the game
+    </button>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Score</th> 
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr table-row ng-repeat="player in hs.players"></tr>
+    </tbody>
+    </table>
+</div>
+<!-- </div> -->
