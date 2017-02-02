@@ -1,11 +1,11 @@
 <div class="jumbotron text-center">
     <div class="game-timer">
+        <div class="game-timer-label">TIMER</div>
         <span game-timer></span>
-        <span class="game-timer-label">TIMER</span>
     </div>
     <div class="game-score">
-        <span>{{game.maxScore}}<span>
-        <span class="game-score-label">SCORE</span>
+        <div class="game-score-label">SCORE</div>
+        <span>{{game.maxScore}}</span>
     </div>
     <div class="game-word">{{game.mangledWord}}</div>
     <div class="game-container">
@@ -20,7 +20,7 @@
 
     <p class="alert alert-success" role="alert" ng-show="game.successAlert">Correct! You unmangled the word.</p>
     <p class="alert alert-danger" role="alert" ng-show="game.dangerAlert">Oh no! Wrong answer.</p>
-    <p class="alert alert-warning" role="alert" ng-hide="game.dangerAlert || game.successAlert">Unmangle the word and press the button below.</p>
+    <p class="alert alert-warning" role="alert" ng-hide="game.dangerAlert || game.successAlert">Unmangle the word and watch out for the time.</p>
 
     <div class="row">
         <div class="col-xs-6">
