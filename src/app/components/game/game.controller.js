@@ -4,15 +4,13 @@
         .module('mangledWords')
         .controller('GameController', GameController);
 
-    GameController.$inject = ['$interval', 'gameModalService', 'words'];
+    GameController.$inject = ['$timeout', 'gameModalService', 'words', 'TIMER'];
     /** @ngInject */
-    function GameController($interval, gameModalService, words) {
+    function GameController($timeout, gameModalService, words, TIMER) {
         var vm = this;
         vm.inputChanged = inputChanged;
         vm.startNewGame = startNewGame;
         vm.submitWord = submitWord;
-
-        vm.countdown;
         vm.gameStarted = false;
         vm.index = 0;
         vm.input = '';
@@ -23,7 +21,7 @@
         vm.penality = 0;
         vm.dangerAlert = false;
         vm.successAlert = false;
-        vm.time = 5;
+        vm.triggerTimer=false;
         vm.title = "Game";
         vm.subTitle = "Check your score or if you haven't play yet... give it a try!";
         vm.wrongAnswer = false;
@@ -51,24 +49,15 @@
             vm.gameStarted = true;
             vm.maxScore = 0;
             vm.penality = 0;
-            vm.time = 10;
+            // vm.time = 10;
             vm.mangledWord = shuffleWord(words[vm.index]);
             vm.originalWord = words[vm.index];
             vm.title = "Game Started!";
             vm.subTitle = "Good luck...";
-            vm.countdown = $interval(function() {
-                if (vm.time > 0 ) {
-                    vm.time--;
-                } else {
-                    console.log("finished")
-                }
-            }, 1000, 10);
-            vm.countdown.then(function(){
+            $timeout(function() {
                 resetGame();
-                // vm.gameStarted = false;
-                // $interval.cancel(vm.countdown);
                 gameModalService.open(vm.maxScore);
-            });
+            }, TIMER * 1000);
         }
 
         function inputChanged(){

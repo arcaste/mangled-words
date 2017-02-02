@@ -1,10 +1,9 @@
-/* global malarkey:false, moment:false */
 (function() {
   'use strict';
 
   angular
     .module('mangledWords')
-    .constant('malarkey', malarkey)
+    .constant('TIMER', 40)
     .constant('moment', moment);
 
 })();
