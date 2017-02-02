@@ -1,5 +1,5 @@
 # Mangled words
-An anonymous guessing word game with public a highscore.
+An anonymous guessing word game with a public highscore.
 
 # Technologies used
 * Javascript ES5, HTML and CSS
