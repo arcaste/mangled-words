@@ -26,7 +26,7 @@
                         response[n] = response[i];
                         response[i] = tmp;
                     }
-                    console.log(response);
+                    // console.log(response);
                     return response;
                 }, function(error){
                     console.log("Error status: " + error);
@@ -37,7 +37,7 @@
         function savePlayer(params){
             return httpService.post(URL.BASE+URL.PLAYERS, params)
                 .then( function(response){
-                    console.log(response);
+                    // console.log(response);
                     return response;
                 }, function(error){
                     console.log("Error status: " + error);
