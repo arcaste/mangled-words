@@ -1,48 +1,37 @@
-<br>
-<!-- <div class="jumbotron text-center">
-    <h1>{{game.title}}</h1>
-    <br>
-    <p>{{game.subTitle}}</p>
-    <p><button ng-disabled="game.gameStarted" ui-sref="highscore" ui-sref-active="active" type="button" class="btn btn-primary btn-lg btn-block">
-        Highscore
-    </button></p>
-    <p><button ng-disabled="game.gameStarted" ng-click="game.startNewGame()" type="button" class="btn btn-primary btn-lg btn-block">
-        Play the game
-    </button></p>
-</div> -->
 <div class="jumbotron text-center">
-<!-- <p>{{game.time}}</p> -->
-<p><span game-timer></span></p>
-<p>{{game.maxScore}}</p>
-<p>{{game.mangledWord}}</p>
-
-<!-- <form name="gameForm"> -->
-    <p>
-        <input class="input-lg" ng-disabled="!game.gameStarted" type="text" ng-model="game.input" ng-change="game.inputChanged()"/>
-    </p>
+    <div class="game-timer">
+        <span game-timer></span>
+        <span class="game-timer-label">TIMER</span>
+    </div>
+    <div class="game-score">
+        <span>{{game.maxScore}}<span>
+        <span class="game-score-label">SCORE</span>
+    </div>
+    <div class="game-word">{{game.mangledWord}}</div>
+    <div class="game-container">
+        <input class="game-input input-lg" ng-disabled="!game.gameStarted" type="text" ng-model="game.input" ng-change="game.inputChanged()"/>
+    </div>
 <!--     <p>
         <button ng-disabled="gameForm.$invalid" ng-click="game.submitWord()" type="button" class="btn btn-lg btn-block" ng-class="game.wrongAnswer ? 'btn-danger' : 'btn-primary'">
             <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
         </button>
     </p> -->
-<!-- </form> -->
+    <!-- </form> -->
 
-<p class="alert alert-success" role="alert" ng-show="game.successAlert">Correct! You unmangled the word.</p>
-<p class="alert alert-danger" role="alert" ng-show="game.dangerAlert">Oh no! Wrong answer.</p>
-<p class="alert alert-warning" role="alert" ng-hide="game.dangerAlert || game.successAlert">Unmangle the word and press the button below.</p>
+    <p class="alert alert-success" role="alert" ng-show="game.successAlert">Correct! You unmangled the word.</p>
+    <p class="alert alert-danger" role="alert" ng-show="game.dangerAlert">Oh no! Wrong answer.</p>
+    <p class="alert alert-warning" role="alert" ng-hide="game.dangerAlert || game.successAlert">Unmangle the word and press the button below.</p>
 
-<div class="row">
-<div class="col-xs-6">
-    <button ng-disabled="game.gameStarted" ng-click="game.startNewGame()" type="button" class="btn btn-primary btn-lg btn-block">
-        Start
-    </button>
-</div>
-<div class="col-xs-6">
-    <button ui-sref="main" ui-sref-active="active" ng-disabled="game.gameStarted" type="button" class="btn btn-default btn-lg btn-block">
-        Back
-    </button>
-</div>
-</div>
-</div>
-<br>
+    <div class="row">
+        <div class="col-xs-6">
+            <button ng-disabled="game.gameStarted" ng-click="game.startNewGame()" type="button" class="btn btn-primary btn-lg btn-block">
+                Start
+            </button>
+        </div>
+        <div class="col-xs-6">
+            <button ui-sref="main" ui-sref-active="active" ng-disabled="game.gameStarted" type="button" class="btn btn-default btn-lg btn-block">
+                Back
+            </button>
+        </div>
+    </div>
 </div>

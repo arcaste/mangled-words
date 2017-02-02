@@ -1,0 +1,66 @@
+$game-label-size : 13px;
+$game-score-size : 60px;
+$game-word-size : 50px;
+
+.game-word {
+    font-size: $game-word-size;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-bottom: 4px dashed #333333;
+    width: 300px;
+}
+
+.game-detail{
+    font-size: $game-score-size;
+    font-weight: bold;
+    max-width: 115px;
+    border-radius: 9%;
+    color: black;
+    margin: 0 auto;
+    position: relative;
+}
+
+.game-score {
+    @extend .game-detail;
+    background-color: #dff0d8;
+    border: 4px solid #3c763d;
+}
+
+.game-timer {
+    @extend .game-detail;
+    background-color: #f2dede;
+    border: 4px solid #a94442;
+    margin-bottom: 30px;
+}
+
+.game-container {
+    padding: 10px 0px 10px 0px;
+}
+
+.game-input {
+    width: 100%;
+    text-align: center;
+}   
+
+.game-label {
+    font-size: 13px;
+    font-weight: bold;
+    position: absolute;
+    border-radius: 10px;
+    width: 70px;
+    margin: -18px 0px 0px -51px;
+}
+
+.game-score-label {
+    @extend .game-label;
+    background: #dff0d8;
+    border: 4px solid #3c763d;
+}
+
+.game-timer-label {
+    @extend .game-label;
+    background: #f2dede;
+    border: 4px solid #a94442;
+    
+}

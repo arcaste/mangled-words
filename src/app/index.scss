@@ -7,6 +7,8 @@ $navbar-inverse-link-color: #5AADBB;
 
 // $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"; //REMOVE DURING DISTRIBUTION
 $icon-font-path: '../fonts/' !default;
+
+//Using Jumbotron narrow from bootstrap https://gist.github.com/hellt/bc4fc51d6f1b9584605517f5c8d6a5a0
 /* Space out content a bit */
 body {
   padding-top: 20px;
@@ -69,7 +71,7 @@ body {
 }
 
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 680px) {
   /* Remove the padding we set earlier */
   .header,
   .marketing,
