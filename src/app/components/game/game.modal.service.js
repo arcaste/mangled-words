@@ -20,6 +20,7 @@
                 controllerAs: 'modal',
                 templateUrl : 'app/components/game/game.modal.html',
                 size: 'mg',
+                backdrop: 'static',
                 resolve: {
                    score: score
                 }
