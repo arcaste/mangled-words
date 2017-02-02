@@ -1,14 +1,10 @@
 (function() {
-  'use strict';
+    'use strict';
+    angular
+        .module('mangledWords')
+        .run(runBlock);
 
-  angular
-    .module('mangledWords')
-    .run(runBlock);
-
-  /** @ngInject */
-  function runBlock($log) {
-
-    $log.debug('runBlock end');
-  }
-
+    function runBlock($log) {
+        $log.debug('runBlock end');
+    }
 })();

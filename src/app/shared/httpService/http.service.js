@@ -4,8 +4,8 @@
         .module('mangledWords')
         .factory('httpService', httpService);
     
-    /** @ngInject */
     httpService.$inject=['$http', '$q'];
+    //Pure http abstraction
     function httpService($http, $q) {
         var service = {
             get: getMethod,
@@ -21,7 +21,8 @@
                 return deferred.reject(error.status);
             });
             return deferred.promise;
-        };
+        }
+
         function postMethod(url, data){
             var deferred = $q.defer();
             $http.post(url, data).then(function(response) {
@@ -30,6 +31,6 @@
                 return deferred.reject(error.status);
             });
             return deferred.promise;
-        };
+        }
     }
 })();

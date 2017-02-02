@@ -1,14 +1,12 @@
-/**
-* @desc table row directive for the highscore page
-* @example <span game-timer></span>
-*/
 (function(){
-'use strict';
+    'use strict';
     angular
         .module('mangledWords')
         .directive('gameTimer', gameTimer);
 
         gameTimer.$inject = ['TIMER'];
+        
+        //Directive that display the timer countdown
         function gameTimer(TIMER) {
             return {
                 link: function(scope, element) {

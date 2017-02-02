@@ -5,37 +5,94 @@
         .controller('GameController', GameController);
 
     GameController.$inject = ['$timeout', 'gameModalService', 'words', 'TIMER'];
-    /** @ngInject */
+
     function GameController($timeout, gameModalService, words, TIMER) {
         var vm = this;
+        var index = 0;
+        var inputTmp = '';
+        var originalWord = '';
+        var penality = 0;
+        
         vm.inputChanged = inputChanged;
         vm.startNewGame = startNewGame;
-        vm.submitWord = submitWord;
+        
+        vm.dangerAlert = false;
         vm.gameStarted = false;
-        vm.index = 0;
         vm.input = '';
-        vm.inputTmp = '';
         vm.maxScore = 0;
         vm.mangledWord = '....';
-        vm.originalWord = '';
-        vm.penality = 0;
-        vm.dangerAlert = false;
         vm.successAlert = false;
-        vm.triggerTimer=false;
-        vm.title = "Game";
-        vm.subTitle = "Check your score or if you haven't play yet... give it a try!";
-        vm.wrongAnswer = false;
+
+        function inputChanged(){
+            //Swap the alert messages
+            if(vm.successAlert){
+                vm.successAlert=false;
+            } else if (vm.dangerAlert){
+                vm.dangerAlert=false;
+            }
+
+            //Penality points for erasing characters
+            if(vm.input.length < inputTmp.length){
+                //Ammount of penality is equal to the number of deleted char
+                penality += (inputTmp.length - vm.input.length);
+                //Avoiding score less than 0
+                if(penality > originalWord.length){
+                    penality = originalWord.length;
+                }
+                inputTmp = vm.input;
+                return;
+            }
+
+            //Remove all whitespaces
+            vm.input = vm.input.replace(/ /g, '');
+            //Check if the last char is a correct one
+            if(vm.input.match(/^[A-zÀ-ÿ]+$/)){
+                vm.input = vm.input.toUpperCase();  
+            } else {
+                vm.input = vm.input.slice(0,-1);  
+            }
+
+            inputTmp = vm.input;
+            
+            //If the input word has the same length of the original one but is not correct
+            //we add penality point as the length of the word, popping out the alerts and reset the input 
+            if(vm.input.length === originalWord.length){
+                if(vm.input === originalWord.toUpperCase()){
+                    vm.successAlert = true;
+                    //Compute score
+                    var tmp = Math.floor(Math.pow(1.95, originalWord.length/3)) - penality;
+                    if(tmp > 0){
+                        vm.maxScore += tmp;
+                    }
+                    //Get new word
+                    index++;
+                    penality = 0;
+                    if(words.length !== index){
+                        vm.mangledWord = shuffleWord(words[index]);
+                        originalWord = words[index];
+                    }
+                } else {
+                    vm.dangerAlert = true;
+                    penality+=vm.input.length;
+                    if(penality > originalWord.length){
+                        penality = originalWord.length;
+                    }
+                }
+                vm.input = '';
+                inputTmp = '';
+            }
+        }
 
         function resetGame(){
-            vm.gameStarted = false;
+            index = 0;
+            inputTmp = '';
+            originalWord = '';
             vm.dangerAlert = false;
-            vm.successAlert = false;
-            vm.index = 0;
+            vm.gameStarted = false;
             vm.input = '';
-            vm.inputTmp = '';
             vm.mangledWord = '....';
-            vm.originalWord = '';
-            // Fisher-Yates shuffle
+            vm.successAlert = false;
+            // Shuffle the word array for a new game
             var n = words.length;
             var i;
             while (n > 0) {
@@ -44,77 +101,6 @@
                 var tmp = words[n];
                 words[n] = words[i];
                 words[i] = tmp;
-            }
-            
-        }
-
-        function startNewGame(){
-            vm.gameStarted = true;
-            vm.maxScore = 0;
-            vm.penality = 0;
-            // vm.time = 10;
-            vm.mangledWord = shuffleWord(words[vm.index]);
-            vm.originalWord = words[vm.index];
-            vm.title = "Game Started!";
-            vm.subTitle = "Good luck...";
-            $timeout(function() {
-                resetGame();
-                gameModalService.open(vm.maxScore);
-            }, TIMER * 1000);
-        }
-
-        function inputChanged(){
-            if(vm.successAlert){
-                vm.successAlert=false;
-            } else if (vm.dangerAlert){
-                vm.dangerAlert=false;
-            }
-            //for those who cheats 
-            if(vm.input.length < vm.inputTmp.length){
-                increasePenality(vm.inputTmp.length-vm.input.length);
-            }
-            //remove all occurrence of whitespaces
-            vm.input = vm.input.replace(/ /g, '');
-            if(vm.input.match(/^[A-zÀ-ÿ]+$/)){
-                vm.input = vm.input.toUpperCase();  
-            } else {
-                vm.input = vm.input.slice(0,-1);  
-            }
-            vm.inputTmp = vm.input;
-            if(vm.input.length === vm.originalWord.length){
-                submitWord();
-            }
-        }
-
-        function submitWord(){
-            if(vm.input === vm.originalWord.toUpperCase()){
-                vm.successAlert = true;
-                increaseMaxScore();
-                vm.index++;
-                vm.penality = 0;
-                if(words.length !== vm.index){
-                    vm.mangledWord = shuffleWord(words[vm.index]);
-                    vm.originalWord = words[vm.index];
-                }
-            } else {
-                vm.dangerAlert = true;
-                increasePenality(vm.input.length);
-            }
-            vm.input = '';
-            vm.inputTmp = '';
-        }
-
-        function increasePenality(amount){
-            vm.penality+=amount;
-            if(vm.penality > vm.originalWord.length){
-                vm.penality = vm.originalWord.length;
-            }
-        }
-
-        function increaseMaxScore(){
-            var tmp = Math.floor(Math.pow(1.95,vm.originalWord.length/3)) - vm.penality;
-            if(tmp > 0){
-                vm.maxScore += tmp;
             }
         }
 
@@ -133,6 +119,18 @@
                 }
             } while(array.join("") === word);
             return array.join("");
+        }
+
+        function startNewGame(){
+            originalWord = words[index];
+            vm.gameStarted = true;
+            vm.mangledWord = shuffleWord(words[index]);
+            vm.maxScore = 0;
+            vm.penality = 0;
+            $timeout(function() {
+                resetGame();
+                gameModalService.open(vm.maxScore);
+            }, TIMER * 1000);
         }
     }
 })();

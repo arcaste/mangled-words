@@ -11,12 +11,6 @@
     <div class="game-container">
         <input class="game-input input-lg" ng-disabled="!game.gameStarted" type="text" ng-model="game.input" ng-change="game.inputChanged()"/>
     </div>
-<!--     <p>
-        <button ng-disabled="gameForm.$invalid" ng-click="game.submitWord()" type="button" class="btn btn-lg btn-block" ng-class="game.wrongAnswer ? 'btn-danger' : 'btn-primary'">
-            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-        </button>
-    </p> -->
-    <!-- </form> -->
 
     <p class="alert alert-success" role="alert" ng-show="game.successAlert">Correct! You unmangled the word.</p>
     <p class="alert alert-danger" role="alert" ng-show="game.dangerAlert">Oh no! Wrong answer.</p>

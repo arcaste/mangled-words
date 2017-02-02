@@ -5,9 +5,9 @@
         .controller('GameModalController', GameModalController)
         .factory('gameModalService', gameModalService);
 
-    /** @ngInject */
     gameModalService.$inject=['$uibModal'];
 
+    //Service used to launch a new modal
     function gameModalService($uibModal) {
         var service = {
             open: open
@@ -18,7 +18,7 @@
             return $uibModal.open({
                 controller: 'GameModalController',
                 controllerAs: 'modal',
-                templateUrl : 'app/components/game/game.modal.html',
+                templateUrl : 'app/components/game/modals/game.modal.html',
                 size: 'mg',
                 backdrop: 'static',
                 resolve: {
@@ -28,8 +28,9 @@
         }
     }
 
-    GameModalController.$inject = ['$uibModalInstance', 'score', 'httpService', 'URL'];
-    function GameModalController($uibModalInstance, score, httpService, URL) {
+    GameModalController.$inject = ['$uibModalInstance', 'score', 'gameService'];
+    //In the modal controller we delegate the persitance of a new player to the game service
+    function GameModalController($uibModalInstance, score, gameService) {
         var vm = this;
         vm.cancel = $uibModalInstance.dismiss;
         vm.confirm = confirm;
@@ -37,19 +38,13 @@
         vm.score = score;
         
         function confirm(){
-            console.log(vm.name+" "+vm.score);
             var params = {
                 name: vm.name,
-                score: vm.score,
+                score: vm.score
             }
-            httpService.post(URL.BASE+URL.PLAYERS+URL.TOKEN, params)
-                .then( function(response){
-                    console.log(response);
-                    $uibModalInstance.close();
-                }, function(error){
-                    console.log("Error status: " + error);
-                    $uibModalInstance.close();
-                });
+            return gameService.savePlayer(params).then(function(){
+                $uibModalInstance.close();
+            });
         }
     }
 })();

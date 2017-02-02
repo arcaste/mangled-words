@@ -7,10 +7,10 @@
     angular
         .module('mangledWords')
         .directive('tableRow', tableRow);
-
+        //Directive for a single row of the highscore
         function tableRow() {
             var directive = {
-                templateUrl: 'app/components/highscore/highscore-table-row.html',
+                templateUrl: 'app/components/highscore/directives/highscore.table-row.html',
                 restrict: 'A',
                 replace: true
             };

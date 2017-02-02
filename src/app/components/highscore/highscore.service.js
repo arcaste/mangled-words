@@ -4,9 +4,8 @@
         .module('mangledWords')
         .factory('highscoreService', highscoreService);
     
-    /** @ngInject */
     highscoreService.$inject = ['httpService', 'URL', '_'];
-
+    //In the highscore service we perform the persistance call for the highscore component
     function highscoreService(httpService, URL, _) {
         var service = {
             getPlayers: getPlayers
@@ -16,9 +15,7 @@
         function getPlayers(){
             return httpService.get(URL.BASE+URL.PLAYERS)
                 .then( function(response){
-                    console.log(response);
                     response = _.sortBy(response, 'score').reverse();
-                    console.log(response);
                     return response;
                 }, function(error){
                     console.log("Error status: " + error);
