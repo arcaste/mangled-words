@@ -4,8 +4,9 @@
  */
 $navbar-inverse-link-color: #5AADBB;
 // $icon-font-path: "../../bootstrap-sass/assets/fonts/bootstrap/";
-$icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
-// $icon-font-path: '../fonts/' !default;
+
+// $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"; //REMOVE DURING DISTRIBUTION
+$icon-font-path: '../fonts/' !default;
 /* Space out content a bit */
 body {
   padding-top: 20px;
@@ -85,6 +86,7 @@ body {
     border-bottom: 0;
   }
 }
+
 /**
  *  Do not remove the comments below. It's the markers used by wiredep to inject
  *  sass dependencies when defined in the bower.json of your dependencies

@@ -9,11 +9,20 @@
       /** @ngInject */
     function routerConfig($stateProvider, $urlRouterProvider) {
         $stateProvider
+            .state('main',{
+                url: '/main',
+                templateUrl: 'app/components/main/main.html'
+                // controller: 'MainController',
+                // controllerAs: 'main'
+            })
             .state('game', {
                 url: '/game',
                 templateUrl: 'app/components/game/game.html',
                 controller: 'GameController',
-                controllerAs: 'game'
+                controllerAs: 'game',
+                resolve: {
+                    words: getWords
+                }
             }).state('highscore', {
                 url: '/highscore',
                 templateUrl: 'app/components/highscore/highscore.html',
@@ -22,16 +31,19 @@
                 resolve: {
                     players: getPlayers
                 }
-                // controller: 'MainController',
-                // controllerAs: 'main'
             });
 
-        $urlRouterProvider.otherwise('/game');
+        $urlRouterProvider.otherwise('/main');
+    }
+
+    getWords.$inject = ['gameService'];
+    function getWords(gameService){
+        return gameService.getWords();
     }
 
     getPlayers.$inject = ['highscoreService'];
     function getPlayers(highscoreService){
-        return highscoreService.get();
+        return highscoreService.getPlayers();
     }
 
 })();

@@ -4,18 +4,9 @@
         .module('mangledWords')
         .controller('GameController', GameController);
 
-    GameController.$inject = ['$interval'];
+    GameController.$inject = ['$interval', 'gameModalService', 'words'];
     /** @ngInject */
-    function GameController($interval) {
-        var words = [
-            "pizza",
-            "dog",
-            "house",
-            "hello",
-            "name",
-            "computer"
-        ];
-        
+    function GameController($interval, gameModalService, words) {
         var vm = this;
         vm.inputChanged = inputChanged;
         vm.startNewGame = startNewGame;
@@ -27,36 +18,65 @@
         vm.input = '';
         vm.inputTmp = '';
         vm.maxScore = 0;
-        vm.mangledWord = shuffleWord(words[vm.index]);
-        vm.originalWord = words[vm.index];
+        vm.mangledWord = '....';
+        vm.originalWord = '';
         vm.penality = 0;
-        vm.showDangerAlert = false;
-        vm.showSuccessAlert = false;
-        vm.time = 40;
+        vm.dangerAlert = false;
+        vm.successAlert = false;
+        vm.time = 5;
         vm.title = "Game";
         vm.subTitle = "Check your score or if you haven't play yet... give it a try!";
         vm.wrongAnswer = false;
 
+        function resetGame(){
+            vm.gameStarted = false;
+            vm.dangerAlert = false;
+            vm.successAlert = false;
+            vm.index = 0;
+            vm.input = '';
+            vm.inputTmp = '';
+            vm.mangledWord = '....';
+            vm.originalWord = '';
+            //Shuffle the words
+            for(var i = 0; i < words.length - 2; i++){
+                var j = Math.floor((Math.random() * (words.length-1)) + i);
+                var tmp = words[i];
+                words[i] = words[j];
+                words[j] = tmp;
+            }
+            
+        }
+
         function startNewGame(){
             vm.gameStarted = true;
+            vm.maxScore = 0;
+            vm.penality = 0;
+            vm.time = 10;
+            vm.mangledWord = shuffleWord(words[vm.index]);
+            vm.originalWord = words[vm.index];
             vm.title = "Game Started!";
             vm.subTitle = "Good luck...";
             vm.countdown = $interval(function() {
                 if (vm.time > 0 ) {
                     vm.time--;
                 } else {
-                    vm.gameStarted = false;
-                    $interval.cancel(vm.countdown);
+                    console.log("finished")
                 }
-            }, 1000);
+            }, 1000, 10);
+            vm.countdown.then(function(){
+                resetGame();
+                // vm.gameStarted = false;
+                // $interval.cancel(vm.countdown);
+                gameModalService.open(vm.maxScore);
+            });
         }
 
         function inputChanged(){
-            if(vm.showSuccessAlert){
-                vm.showSuccessAlert=false;
-            } else if (vm.showDangerAlert){
-                vm.showDangerAlert=false;
-            };
+            if(vm.successAlert){
+                vm.successAlert=false;
+            } else if (vm.dangerAlert){
+                vm.dangerAlert=false;
+            }
             //for those who cheats 
             if(vm.input.length < vm.inputTmp.length){
                 increasePenality(vm.inputTmp.length-vm.input.length);
@@ -69,11 +89,14 @@
                 vm.input = vm.input.slice(0,-1);  
             }
             vm.inputTmp = vm.input;
+            if(vm.input.length === vm.originalWord.length){
+                submitWord();
+            }
         }
 
         function submitWord(){
             if(vm.input === vm.originalWord.toUpperCase()){
-                vm.showSuccessAlert = true;
+                vm.successAlert = true;
                 increaseMaxScore();
                 vm.index++;
                 vm.penality = 0;
@@ -82,7 +105,7 @@
                     vm.originalWord = words[vm.index];
                 }
             } else {
-                vm.showDangerAlert = true;
+                vm.dangerAlert = true;
                 increasePenality(vm.input.length);
             }
             vm.input = '';
