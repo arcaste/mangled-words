@@ -5,9 +5,9 @@
         .factory('highscoreService', highscoreService);
     
     /** @ngInject */
-    highscoreService.$inject = ['httpService', 'URL'];
+    highscoreService.$inject = ['httpService', 'URL', '_'];
 
-    function highscoreService(httpService, URL) {
+    function highscoreService(httpService, URL, _) {
         var service = {
             getPlayers: getPlayers
         };
@@ -17,10 +17,8 @@
             return httpService.get(URL.BASE+URL.PLAYERS)
                 .then( function(response){
                     console.log(response);
-                    var players = [
-                        {rank: 1,score:100,name:"first"},
-                        {rank: 2,score:55,name:"second"}
-                    ]
+                    response = _.sortBy(response, 'score').reverse();
+                    console.log(response);
                     return response;
                 }, function(error){
                     console.log("Error status: " + error);
