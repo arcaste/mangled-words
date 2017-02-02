@@ -27,8 +27,8 @@
         }
     }
 
-    GameModalController.$inject = ['$uibModalInstance', 'score', 'httpService'];
-    function GameModalController($uibModalInstance, score, httpService) {
+    GameModalController.$inject = ['$uibModalInstance', 'score', 'httpService', 'URL'];
+    function GameModalController($uibModalInstance, score, httpService, URL) {
         var vm = this;
         vm.cancel = $uibModalInstance.dismiss;
         vm.confirm = confirm;
@@ -37,7 +37,11 @@
         
         function confirm(){
             console.log(vm.name+" "+vm.score);
-            httpService.post({title: 'foo',body: 'bar',userId: 1})
+            var params = {
+                name: vm.name,
+                score: vm.score,
+            }
+            httpService.post(URL.BASE+URL.PLAYERS+URL.TOKEN, params)
                 .then( function(response){
                     console.log(response);
                     $uibModalInstance.close();

@@ -7,14 +7,13 @@
     /** @ngInject */
     httpService.$inject=['$http', '$q'];
     function httpService($http, $q) {
-        var url = "https://jsonplaceholder.typicode.com/posts";
         var service = {
             get: getMethod,
             post: postMethod
         };
         return service;
 
-        function getMethod(){
+        function getMethod(url){
             var deferred = $q.defer();
             $http.get(url).then(function(response) {
                 return deferred.resolve(response.data);
@@ -23,7 +22,7 @@
             });
             return deferred.promise;
         };
-        function postMethod(data){
+        function postMethod(url, data){
             var deferred = $q.defer();
             $http.post(url, data).then(function(response) {
                 return deferred.resolve(response.data);

@@ -35,12 +35,15 @@
             vm.inputTmp = '';
             vm.mangledWord = '....';
             vm.originalWord = '';
-            //Shuffle the words
-            for(var i = 0; i < words.length - 2; i++){
-                var j = Math.floor((Math.random() * (words.length-1)) + i);
-                var tmp = words[i];
-                words[i] = words[j];
-                words[j] = tmp;
+            // Fisher-Yates shuffle
+            var n = words.length;
+            var i;
+            while (n > 0) {
+                i = Math.floor(Math.random() * n);
+                n--;
+                var tmp = words[n];
+                words[n] = words[i];
+                words[i] = tmp;
             }
             
         }
@@ -119,11 +122,14 @@
         function shuffleWord(word){
             do{
                 var array = word.split("");
-                for(var i = 0; i < word.length - 2; i++){
-                    var j = Math.floor((Math.random() * (word.length-1)) + i);
-                    var tmp = array[i];
-                    array[i] = array[j];
-                    array[j] = tmp;
+                var n = array.length;
+                var i;
+                while (n > 0) {
+                    i = Math.floor(Math.random() * n);
+                    n--;
+                    var tmp = array[n];
+                    array[n] = array[i];
+                    array[i] = tmp;
                 }
             } while(array.join("") === word);
             return array.join("");
